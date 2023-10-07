@@ -35,9 +35,9 @@ $$\ odds > \frac{1}{0.5977} = 1.673 $$
 
 Two backtests are carried out on the test set using the test set precision = 0.5977, the test data home odd and assuming an average odd for all draw/away predictions since the data are missing the double chance odds.
 
-<img src="https://github.com/alexkarakozis/Betting-Model/assets/69156399/1a350237-39ee-4561-bbf5-6cbb2ca523ec" width=500/>
+<img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/9a1b808c-d7e4-42dc-9141-502143f469f4" width=500/>
 
-<img src="https://github.com/alexkarakozis/Betting-Model/assets/69156399/82f0c334-70ff-4b8e-b359-e3acfecd1705" width=500/>
+<img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/1502797d-30d2-475c-972a-fd7ce3b230ef" width=500/>
 
 The first image results in a loss of capital because it assumes an average odd of double chance for draw/away odds of 1.55. 
 The second image results in an increase of capital because it assumes an average odd of double chance for draw/away odds of 1.70.
@@ -46,8 +46,8 @@ These observations confirm the expected value result.
 ### Limitations
 - There are some gaps (missing matches) in the data
 - The model assumes that matches happen sequentially which is not always the case as some matches happen on the same day at the same time
-- The model can only be profitable if the $\ odds > \frac{1}{precision}$ to have a positive expected value. However, the precision of the model changes with new predictions so the minimu odds required to bet should also change
-- By assuming Draws to be Away team wins, the double chances odds are low and it is highliy likely that they will be below the minimum required threshold. Also, the model primarily predicts draw/away bets
+- The model can only be profitable if the $\ odds > \frac{1}{precision}$ to have a positive expected value. However, the precision of the model changes with new predictions so the minimum odds required to bet should also change
+- By assuming Draws to be Away team wins, the double chances odds are low and it is highly likely that they will be below the minimum required threshold. Also, the model primarily predicts draw/away bets
 
 
 ### Conclusions
