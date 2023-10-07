@@ -1,6 +1,6 @@
 # Premier League Betting Model
 
-This goal of this premier league betting model is to capture wrong bookie predictions. Bookies make wrong predictions when they assign low odds on a team and that team ends up losing.
+The goal of this premier league betting model is to capture wrong bookie predictions. Bookies make wrong predictions when they assign low odds on a team and that team ends up losing.
 These cases are the cases targeted by this model. This is interesting since the model suggests bets on the teams with high odds potentially resulting in higher returns. The model is a binary classification model. Draws are assumed always as an away team win. This simplifies the model and is a practicable assumption since odds exist for win/draw for away teams (X2). The targeted matches are found by using only the home and away team odds, not cosidering the draw odd. The raw dataset consits of are 2002-2022 premier league matches results and the associated bookie odds.
 
 ### Data cleaning
