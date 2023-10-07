@@ -1,7 +1,7 @@
 # Premier League Betting Model
 
 This goal of this premier league betting model is to capture wrong bookie predictions. Bookies make wrong predictions when they assign low odds on a team and that team ends up losing.
-These cases are the cases targeted by this model. This is interesting since the model suggests bets on the teams with high odds potentially resulting in higher returns. The model is a binary classification model. Draws are assumed always as an away team win. This simplifies the model and is a practicable assumption since odds exist for win/draw for away teams(X2). The targeted matches are found by using only the home and away team odds, not cosidering the draw odd. The raw dataset consits of are 2002-2022 premier league matches results and the associated bookie odds.
+These cases are the cases targeted by this model. This is interesting since the model suggests bets on the teams with high odds potentially resulting in higher returns. The model is a binary classification model. Draws are assumed always as an away team win. This simplifies the model and is a practicable assumption since odds exist for win/draw for away teams (X2). The targeted matches are found by using only the home and away team odds, not cosidering the draw odd. The raw dataset consits of are 2002-2022 premier league matches results and the associated bookie odds.
 
 ### Data cleaning
 
@@ -21,7 +21,7 @@ The premier league matches and bookie odds are time-series data and therefore th
 
 |           | Random model | Bet every game   | Random Forest (training) | Random Forest (test) |
 | --------- | -------------| ---------------- | -------------------------| -------------------- |
-| Precision | 0.3856       | 0.3850           |  0.4913                  | 0.5977               |
+| Precision | 0.3856       | 0.3850           |  0.50309                 | 0.5977               |
 
 
 The expected value of the betting strategy determines whether the strategy can be profitable.
@@ -39,8 +39,8 @@ Two backtests are carried out on the test set using the test set precision = 0.5
 
 <img src="https://github.com/alexkarakozis/Betting-Model/assets/69156399/82f0c334-70ff-4b8e-b359-e3acfecd1705" width=500/>
 
-The left image results in a loss of capital because it assumes an average odd of double chance for draw/away odds of 1.55. 
-The right image results in an increase of capital because it assumes an average odd of double chance for draw/away odds of 1.70.
+The first image results in a loss of capital because it assumes an average odd of double chance for draw/away odds of 1.55. 
+The second image results in an increase of capital because it assumes an average odd of double chance for draw/away odds of 1.70.
 These observations confirm the expected value result.
 
 ### Limitations
