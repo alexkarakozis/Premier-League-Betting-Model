@@ -268,11 +268,8 @@ def backtest(filename, X_train, y_train,  curr_matches, clf, sim = False):
 
 def simulation(predictions, y, precision, X):
     # ---------------------------------------
-    # Perform simulation with Kelly Criterion
+    # Perform simulation
     # ---------------------------------------
-    print("---------------------------------------")
-    print("Perform simulation with Kelly Criterion")
-    print("---------------------------------------")
     
     capital = 500 
     win_prob = precision # precision score of model
@@ -286,7 +283,7 @@ def simulation(predictions, y, precision, X):
         model = ""
         # Assign odds
         if X["Bookie"][i] == 1:
-            gross_odds = 1.75 #1.70
+            gross_odds = 1.70 #1.75
             model = "Away"
         else:
             gross_odds = X["WHH"][i]
@@ -311,7 +308,7 @@ def simulation(predictions, y, precision, X):
 
     print(hist_capital[-1])
     plt.axhline(y = 500, color = 'r', linestyle = '--', label="Starting Capital") 
-    plt.title("Betting model performance for test seasons 2019-2022 \n Average odds for draw/away = 1.75")
+    plt.title("Betting model performance for test set (2019-2022) \n Average odds for draw/away = 1.70")
     plt.ylabel("Capital")
     plt.xlabel("No. of bets")
     plt.plot(hist_capital, label="Capital")
@@ -329,8 +326,8 @@ def kelly_crit(p,b):
 X_train, y_train, curr_matches, clf = train_gridsearch()
 
 # ---------------------------
-# Test data 2019-2022 seasons
+# Test data 2019-2022
 # ---------------------------
 
-filename = "test_data copy.csv"
+filename = "test_data.csv"
 backtest(filename, X_train, y_train, curr_matches, clf, sim=True)
