@@ -51,6 +51,6 @@ These observations confirm the expected value result.
 
 
 ### Conclusions
-This model aimed to identify bookie false predictions and leverage the high odds of the unfavorable outcome. Although it provides higher precision than a compeltely random model, it may not be adequate to be profitable due the low odds and precision relationship. Further work could include investigating different algorithms other than random forest on the same dataset to explore whether higher precision can be achieved. 
+This model aims to identify bookie false predictions and leverage the high odds of the unfavorable outcome. Although it provides higher precision than a compeltely random model, it may not be adequate to be profitable due the low odds and precision relationship. Further work could include investigating different algorithms other than random forest on the same dataset to explore whether higher precision can be achieved. 
 
 
