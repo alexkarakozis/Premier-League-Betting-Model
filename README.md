@@ -7,7 +7,7 @@ These cases are the cases targeted by this model. This is interesting since the 
 
 Before making the binary classification model, the data needs to be cleaned. That means that the bookies prediction needs to be identified by looking at the home and away team odds, draws need to be assigned as away team wins,
 and then the model's target matches need to be identified which occur when the bookie makes a false prediction. The target matches will be the output of the model. Although the odds change over time, the odds in the dataset are assumed to be a snapshot in time of the odds at the time of betting. 
-The dataset is split into training and test sets. Validation isnt considered since the data are time-series and it is not valid to manipulate their time order. The training set consists of 2002-2018 premier league seasons, and the test set consists of the 2019-2022 premier league seasons.
+The dataset is split into training and test sets. Validation isnt considered since the data are time-series and it is not valid to manipulate their time order. The training set consists of 2002-2018 premier league matches, and the test set consists of the 2019-2022 premier league matches.
 
 ### Model Features and Training
 The premier league matches and bookie odds are time-series data and therefore the model needs to be updated based on new matches. Thus, a sliding window approach is used to make a prediction for the next match using the 80 most recent matches. After the match ends, the oldest match is discarded and the most recent match is added to the matches used for prediction and the model is refitted to the data. A random forest classifier is selected because it allows for feature importance to select features. By using an iterative approach the features importance measure is used to select the features. A gridsearch is then performed to identify the hyperparameters with the highest precision over the training data. The model aims to maximise precision (true positives/(true positives + false positives)). The reason behind this is that when the model suggests to bet (i.e. is positive) it needs to be right, otherwise the betting capital is lost. False negatives are not an issue since the model suggests not to bet. These are missed opportunities but do not decrease the avaialble capital.
@@ -33,19 +33,19 @@ The relationship between the odds and precision score of the model define the pr
 The model has a precision of 0.5775 on the test set. Thus, the expected value is,
 $$\ odds > \frac{1}{0.5775} = 1.732 $$
 
-Two backtests are carried out on the test set using the test set precision = 0.5775, the test data home odds and assuming average odds for all draw/away predictions since the data are missing the double chance odds.
+Two backtests are carried out. The starting capital is 500 and each bet stake is 10. The test data home odds are used and average odds for all draw/away predictions are assumed since the data are missing the double chance odds.
 
-<img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/c39818e9-10f4-421a-9c84-5ae3924c6cc3" width=500/>
+<img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/82e605ea-184b-490a-9c54-f130d8622f12" width=500/>
 
-<img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/dbf3137c-fc6c-4f37-911c-3a99a39baa72" width=500/>
+<img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/c29121ff-777e-4723-b80b-7e20cad355e9" width=500/>
 
 The first image results in a loss of capital because it assumes averages odds for double chance for draw/away odds of 1.70. 
 The second image results in an increase of capital because it assumes average odds for double chance for draw/away odds of 1.75.
 These observations confirm the expected value result.
 
 ### Limitations
-- The model assumes that matches happen sequentially which is not always the case as some matches happen on the same day at the same time
-- The model can only be profitable if the $\ odds > \frac{1}{precision}$ to have a positive expected value. However, the precision of the model changes with new predictions, therefore the minimum odds required to bet should also change
+- The model assumes that matches happen sequentially which is not always the case as some matches happen on the same day at the same time.
+- The model can only be profitable if the $\ odds > \frac{1}{precision}$ to have a positive expected value. However, the precision of the model changes with new predictions, therefore the minimum odds required to bet should also change.
 - By assuming draws to be away team wins, the model primarily predicts draw/away bets. Also it is trained on away only odds, not double chance.
 - The double chance odds are low and it is unlikely that they will be above the minimum required threshold.
 
