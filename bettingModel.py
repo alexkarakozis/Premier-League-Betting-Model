@@ -86,14 +86,15 @@ def train_gridsearch():
     all_years = list(range(2,19))
     # all_years_stats = np.zeros((len(all_years),len(all_months),2))
     all_years_stats = np.zeros((len(all_years),len(all_months)))
-    curr_year = 2002
-    curr_year_index = 0
 
     for r in range(num_random_states):
         row_index = 0
         for d in max_depth:
             for n in n_estimators:
                 for k in curr_matches:
+                    curr_year = 2002
+                    curr_year_index = 0
+
                     # Correct positive predictions
                     true_pos = 0
                     # Total positive predictions
@@ -107,7 +108,7 @@ def train_gridsearch():
                     clf = RandomForestClassifier(n_estimators=n, max_depth=d, random_state=r)
                 
                     # Features importance
-                    # features_importance = np.zeros(len(features)-3)
+                    features_importance = np.zeros(len(features)-4)
 
                     for i in tqdm(range(k, len(X)-pred_matches)):
 
@@ -119,19 +120,19 @@ def train_gridsearch():
                         clf.fit(X_train, y_train)
 
                         # Aggregate features importance
-                        # features_importance += clf.feature_importances_
+                        features_importance += clf.feature_importances_
 
                         # # Prediction (validation) step
                         X_val_all, y_val = X.loc[i+1:i+pred_matches], y.loc[i+1:i+pred_matches]
                         X_val = X_val_all.drop(columns=["HomeTeam", "AwayTeam", "Month", "Year"])
                         y_pred = clf.predict(X_val)
-                        # y_pred =  [np.random.uniform() > 0.5]
+                        #y_pred =  [np.random.uniform() > 0.5]
 
-                        # true_pos += (y_pred[0] == y_val.iloc[0] and y_pred[0])
+                        true_pos += (y_pred[0] == y_val.iloc[0] and y_pred[0])
                         # false_pos += (y_pred[0] != y_val.iloc[0] and y_pred[0]) 
                         # true_neg += (y_pred[0] == y_val.iloc[0] and not y_pred[0])
                         # false_neg += (y_pred[0] != y_val.iloc[0] and not y_pred[0])
-                        # tot_pos += (y_pred[0])
+                        tot_pos += (y_pred[0])
 
                         # Check wheter year has changed
                         if curr_year != X_val_all.iloc[0,3]:
@@ -187,23 +188,19 @@ def train_gridsearch():
 
                         
 
-                    # print(f"Precision: {true_pos/tot_pos:.5f} ({true_pos}/{tot_pos})")
+                    print(f"Precision: {true_pos/tot_pos:.5f} ({true_pos}/{tot_pos})")
                     
                     # print(true_pos, false_pos, true_neg, false_neg)
 
                     # Normalize features importances
-                    # iterations = len(X)-pred_matches-k
-                    # features_importance = features_importance/iterations
-                    # print(f"Features: {features_importance} ({len(features)-3})")
-                    # print(np.sum(features_importance))
-                    # f_i = list(zip(features[3:],features_importance))
-                    # f_i.sort(key = lambda x : x[1])
-                    # plt.barh([x[0] for x in f_i],[x[1] for x in f_i])
-                    # plt.show()
-                    # aggregate_res[row_index][r] = true_pos/tot_pos
-                    # row_index += 1
-                    # print(all_months_stats[0,0:2])
-
+                    iterations = len(X)-pred_matches-k
+                    features_importance = features_importance/iterations
+                    print(f"Features: {features_importance} ({len(features)-4})")
+                    print(np.sum(features_importance))
+                    f_i = list(zip(features[4:],features_importance))
+                    f_i.sort(key = lambda x : x[1])
+                    plt.barh([x[0] for x in f_i],[x[1] for x in f_i])
+                    plt.show()
 
                     # all_years_stats[curr_year_index,:] = all_months_stats[:,0:2]
 
@@ -216,7 +213,6 @@ def train_gridsearch():
     # print(all_years_stats)
 
     stats = pd.DataFrame(all_years_stats)
-    stats.drop([5, 6], axis=1, inplace=True)
     stats.to_csv("year_analysis.csv")
 
     # df = pd.DataFrame(aggregate_res)
@@ -226,10 +222,10 @@ def train_gridsearch():
     X_train, y_train = X.loc[startIndex+1:i+1], y.loc[startIndex+1:i+1]
     return X_train, y_train, curr_matches, clf
 
-def backtest(filename, X_train, y_train,  curr_matches, clf, kelly_sim = False):
+def backtest(filename, X_train, y_train,  curr_matches, clf, sim = False):
     df = pd.read_csv(filename)
     # features = ["HomeTeam", "AwayTeam", "Month", "Year", "IWA", "Bookie", "WHA", "WHH", "HTWinStreak3", "HTWinStreak5", "HTLossStreak3", "HTLossStreak5", "ATWinStreak3", "ATWinStreak5", "ATLossStreak3","ATLossStreak5"]
-    features = ["HomeTeam", "AwayTeam", "Month", "Year", "IWA", "Bookie", "WHA", "WHH"]
+    features = ["HomeTeam", "AwayTeam", "Month", "Year", "IWA", "Bookie", "WHA", "WHH", "WHD"]
     X = df[features]
     y = df["Target"]
     pred_matches = 1
@@ -244,7 +240,7 @@ def backtest(filename, X_train, y_train,  curr_matches, clf, kelly_sim = False):
         
         # Make first prediction using previous years data
         X_val_all, y_val = X.loc[i:i+pred_matches], y.loc[i:i+pred_matches]
-        X_val = X_val_all.drop(columns=["HomeTeam", "AwayTeam", "Month", "Year"])
+        X_val = X_val_all.drop(columns=["HomeTeam", "AwayTeam", "Month", "Year", "WHD"])
         y_pred = clf.predict(X_val)
         
         predictions.append(y_pred[0])
@@ -257,7 +253,7 @@ def backtest(filename, X_train, y_train,  curr_matches, clf, kelly_sim = False):
         # Add latest match
         X_train.append(X_val_all)
         y_train.append(y_val)
-        X_train = X_train.drop(columns=["HomeTeam", "AwayTeam", "Month", "Year"])
+        X_train = X_train.drop(columns=["HomeTeam", "AwayTeam", "Month", "Year", "WHD"])
 
         # Refit model for every new match added
         clf.fit(X_train, y_train)
@@ -265,12 +261,12 @@ def backtest(filename, X_train, y_train,  curr_matches, clf, kelly_sim = False):
     precision = true_pos/tot_pos
     print(f"Precision: {precision}")
 
-    if kelly_sim:
-        simulation(predictions, y, precision)
+    if sim:
+        simulation(predictions, y, precision, X)
 
     
 
-def simulation(predictions, y, precision):
+def simulation(predictions, y, precision, X):
     # ---------------------------------------
     # Perform simulation with Kelly Criterion
     # ---------------------------------------
@@ -280,32 +276,52 @@ def simulation(predictions, y, precision):
     
     capital = 500 
     win_prob = precision # precision score of model
-    gross_odds = 1.67 # odd + 1 (for unit stake) !!! Requirement gross_odds greater than 1/win_prob for expected value > 0 !!!
-    f = kelly_crit(win_prob,gross_odds)
-    kelly_multiplier = 0.5 # to limit risk and volatility
+    # kelly_multiplier = 0.2 # to limit risk and volatility
     hist_capital = [capital]
+    gross_odds = 0 # decimal odds !!! Requirement gross_odds greater than 1/win_prob for expected value > 0 !!!
 
     for i in range(len(predictions)):
-        bet_capital = f*capital*kelly_multiplier
+
+        
+        model = ""
+        # Assign odds
+        if X["Bookie"][i] == 1:
+            gross_odds = 1.75 #1.70
+            model = "Away"
+        else:
+            gross_odds = X["WHH"][i]
+            model = "Home"
+
+        #f = kelly_crit(win_prob,gross_odds)
+        #bet_capital = f*capital*kelly_multiplier
+        bet_capital = 10
+        
         if predictions[i] == 1 and y[i] == 1:
+            print(f"Capital is: {capital}, bet capital is: {bet_capital}")
+            print(f"Team: {model}, odds: {gross_odds}")
+            print("Correct")
             capital += bet_capital*(gross_odds-1)
             hist_capital.append(capital)
         elif predictions[i] == 1 and y[i] == 0:
+            print(f"Capital is: {capital}, bet capital is: {bet_capital}")
+            print(f"Team: {model}, odds: {gross_odds}")
+            print("Wrong")
             capital -= bet_capital
             hist_capital.append(capital)
 
     print(hist_capital[-1])
-    plt.axhline(y = 500, color = 'r', linestyle = '--') 
-    plt.title("Betting model performance for test seasons 2019-2022")
+    plt.axhline(y = 500, color = 'r', linestyle = '--', label="Starting Capital") 
+    plt.title("Betting model performance for test seasons 2019-2022 \n Average odds for draw/away = 1.75")
     plt.ylabel("Capital")
     plt.xlabel("No. of bets")
-    plt.plot(hist_capital)
+    plt.plot(hist_capital, label="Capital")
+    plt.legend()
     plt.grid()
     plt.show()
 
 def kelly_crit(p,b):
     # Betting strategy that returns the fraction of the capital to bet
-    # given the probability of a win, p and the gross odds, b
+    # given the probability of a win, p and the gross decimal odds, b
     # This is for binary bets, different formula for stocks and multiple outcome bets
     return p - (1-p)/(b-1)
 
@@ -316,5 +332,5 @@ X_train, y_train, curr_matches, clf = train_gridsearch()
 # Test data 2019-2022 seasons
 # ---------------------------
 
-filename = "test_data.csv"
-backtest(filename, X_train, y_train, curr_matches, clf, kelly_sim=True)
+filename = "test_data copy.csv"
+backtest(filename, X_train, y_train, curr_matches, clf, sim=True)
