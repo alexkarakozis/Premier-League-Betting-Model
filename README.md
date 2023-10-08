@@ -21,7 +21,7 @@ The premier league matches and bookie odds are time-series data and therefore th
 
 |           | Random model | Bet every game   | Random Forest (training) | Random Forest (test) |
 | --------- | -------------| ---------------- | -------------------------| -------------------- |
-| Precision | 0.3856       | 0.3850           |  0.50309                 | 0.5977               |
+| Precision | 0.3856       | 0.3850           |  0.50309                 | 0.5775               |
 
 
 The expected value of the betting strategy determines whether the strategy can be profitable.
@@ -30,24 +30,24 @@ $$\ E[V] = precision * (odds-1) - (1-precision) > 0 => odds > \frac{1}{precision
 
 The relationship between the odds and precision score of the model define the profitability of the model.
 
-The model has a precision of 0.5977 on the test set. Thus, the expected value is,
-$$\ odds > \frac{1}{0.5977} = 1.673 $$
+The model has a precision of 0.5775 on the test set. Thus, the expected value is,
+$$\ odds > \frac{1}{0.5775} = 1.732 $$
 
-Two backtests are carried out on the test set using the test set precision = 0.5977, the test data home odds and assuming average odds for all draw/away predictions since the data are missing the double chance odds.
+Two backtests are carried out on the test set using the test set precision = 0.5775, the test data home odds and assuming average odds for all draw/away predictions since the data are missing the double chance odds.
 
-<img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/9a1b808c-d7e4-42dc-9141-502143f469f4" width=500/>
+<img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/c39818e9-10f4-421a-9c84-5ae3924c6cc3" width=500/>
 
-<img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/1502797d-30d2-475c-972a-fd7ce3b230ef" width=500/>
+<img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/dbf3137c-fc6c-4f37-911c-3a99a39baa72" width=500/>
 
-The first image results in a loss of capital because it assumes averages odds for double chance for draw/away odds of 1.55. 
-The second image results in an increase of capital because it assumes average odds for double chance for draw/away odds of 1.70.
+The first image results in a loss of capital because it assumes averages odds for double chance for draw/away odds of 1.70. 
+The second image results in an increase of capital because it assumes average odds for double chance for draw/away odds of 1.75.
 These observations confirm the expected value result.
 
 ### Limitations
-- There are some gaps (missing matches) in the data
 - The model assumes that matches happen sequentially which is not always the case as some matches happen on the same day at the same time
 - The model can only be profitable if the $\ odds > \frac{1}{precision}$ to have a positive expected value. However, the precision of the model changes with new predictions, therefore the minimum odds required to bet should also change
-- By assuming draws to be away team wins, the double chance odds are low and it is highly likely that they will be below the minimum required threshold. Also, the model primarily predicts draw/away bets
+- By assuming draws to be away team wins, the model primarily predicts draw/away bets. Also it is trained on away only odds, not double chance.
+- The double chance odds are low and it is unlikely that they will be above the minimum required threshold.
 
 
 ### Conclusions
