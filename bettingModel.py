@@ -286,7 +286,7 @@ def simulation(predictions, y, precision, X):
         model = ""
         # Assign odds
         if X["Bookie"][i] == 1:
-            gross_odds = 1.70 #1.55
+            gross_odds = 1.75 #1.70
             model = "Away"
         else:
             gross_odds = X["WHH"][i]
@@ -311,7 +311,7 @@ def simulation(predictions, y, precision, X):
 
     print(hist_capital[-1])
     plt.axhline(y = 500, color = 'r', linestyle = '--', label="Starting Capital") 
-    plt.title("Betting model performance for test seasons 2019-2022 \n Average odds for draw/away = 1.70")
+    plt.title("Betting model performance for test seasons 2019-2022 \n Average odds for draw/away = 1.75")
     plt.ylabel("Capital")
     plt.xlabel("No. of bets")
     plt.plot(hist_capital, label="Capital")
@@ -332,5 +332,5 @@ X_train, y_train, curr_matches, clf = train_gridsearch()
 # Test data 2019-2022 seasons
 # ---------------------------
 
-filename = "test_data.csv"
+filename = "test_data copy.csv"
 backtest(filename, X_train, y_train, curr_matches, clf, sim=True)
