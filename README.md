@@ -10,10 +10,18 @@ and then the model's target matches need to be identified which occur when the b
 The dataset is split into training and test sets. Validation isnt considered since the data are time-series and it is not valid to manipulate their time order. The training set consists of 2002-2018 premier league matches, and the test set consists of the 2019-2022 premier league matches.
 
 ### Model Features and Training
-The premier league matches and bookie odds are time-series data and therefore the model needs to be updated based on new matches. Thus, a sliding window approach is used to make a prediction for the next match using the 80 most recent matches. After the match ends, the oldest match is discarded and the most recent match is added to the matches used for prediction and the model is refitted to the data. A random forest classifier is selected because it allows for feature importance to select features. By using an iterative approach the features importance measure is used to select the features. A gridsearch is then performed to identify the hyperparameters with the highest precision over the training data. The model aims to maximise precision (true positives/(true positives + false positives)). The reason behind this is that when the model suggests to bet (i.e. is positive) it needs to be right, otherwise the betting capital is lost. False negatives are not an issue since the model suggests not to bet. These are missed opportunities but do not decrease the avaialble capital.
+The premier league matches and bookie odds are time-series data and therefore the model needs to be updated based on new matches. Thus, a sliding window approach is used to make a prediction for the next match using only a number of most recent matches. After the match ends, the oldest match is discarded and the most recent match is added to the matches used for prediction and the model is refitted to the data. A random forest classifier is selected because it allows for feature importance to select features. By using an iterative approach the features importance measure is used to select the features. An example of features importance is presented below.
+
+<img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/0af7fafc-a88f-4ec8-902a-41a64a175cd3" width=500/>
+
+A gridsearch is then performed to identify the hyperparameters with the highest precision over the training data. The hyperparameters are the number of most recent matches used in the sliding window, and for the random forest classifier are the number of estimators and the max depth. The model aims to maximise precision (true positives/(true positives + false positives)). The reason behind this is that when the model suggests to bet (i.e. is positive) it needs to be right, otherwise the betting capital is lost. False negatives are not an issue since the model suggests not to bet. These are missed opportunities but do not decrease the avaialble capital. The fine-tuned hyperparameters from the gridsearch are tabulated below.
+
+|           | Number of recent matches | Number of estimators | Max depth                | 
+| --------- | -------------------------| ---------------------| -------------------------| 
+| Value     | 80                       | 50                   |  3                       |
 
 
-### Performance Evaluation - Backtest
+### Performance Evaluation - Backtesting
 
  A completely random model is used by sampling from the uniform distribution and betting if the sample is greater than 0.5. The precision obtained is 0.3856. This is the base minimum performance that random decisions provide. Theoretically, the random forest classifier which makes informed decisions should result in higher precision score. This is the case and the model achieves precisions in the training set and the test set of 0.4913 and 0.5977, respectively. The difference in precision between the base random performance and the model's performance is the value added by the model using the available data. 
 
@@ -39,8 +47,8 @@ Two backtests are carried out. The starting capital is 500 and each bet stake is
 
 <img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/c29121ff-777e-4723-b80b-7e20cad355e9" width=500/>
 
-The first image results in a loss of capital because it assumes averages odds for double chance for draw/away odds of 1.70. 
-The second image results in an increase of capital because it assumes average odds for double chance for draw/away odds of 1.75.
+The first backtesting results in a loss of capital because it assumes averages odds for double chance for draw/away odds of 1.70. 
+The second backtesting results in an increase of capital because it assumes average odds for double chance for draw/away odds of 1.75.
 These observations confirm the expected value result.
 
 ### Limitations
