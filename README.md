@@ -5,8 +5,8 @@ These cases are the cases targeted by this model. This is interesting since the 
 
 ### Data cleaning
 
-Before making the binary classification model, the data needs to be cleaned. That means that the bookies prediction needs to be identified by looking at the home and away team odds, draws need to be assigned as away team wins,
-and then the model's target matches need to be identified which occur when the bookie makes a false prediction. The target matches will be the output of the model. Although the odds change over time, the odds in the dataset are assumed to be a snapshot in time of the odds at the time of betting. 
+Before making the binary classification model, the data needs to be cleaned. This involved identifying the bookies prediction by looking at the home and away team odds, assigning draws as away team wins,
+and then identifying the model's target matches which occur when the bookie makes a false prediction. The target matches will be the output of the model. Although the odds change over time, the odds in the dataset are assumed to be a snapshot in time of the odds at the time of betting. 
 The dataset is split into training and test sets. Validation isnt considered since the data are time-series and it is not valid to manipulate their time order. The training set consists of 2002-2018 premier league matches, and the test set consists of the 2019-2022 premier league matches.
 
 ### Model Features and Training
@@ -59,6 +59,6 @@ These observations confirm the expected value result.
 
 
 ### Conclusions
-This model aims to identify bookie false predictions and leverage the high odds of the unfavorable outcome. Although it provides higher precision than a compeltely random model, it may not be adequate to be profitable due the low odds and precision relationship. Further work could include investigating different algorithms other than random forest on the same dataset to explore whether higher precision can be achieved. 
+This model aims to identify bookie false predictions and leverage the high odds of the unfavorable outcome. Although it provides higher precision than a purely random model, it may not be adequate to be profitable due the low odds and precision relationship. Further work could include investigating different algorithms other than random forest on the same dataset to explore whether higher precision can be achieved. 
 
 
