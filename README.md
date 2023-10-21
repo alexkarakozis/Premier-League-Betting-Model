@@ -8,7 +8,7 @@ This binary random forest classifier aims to identify inaccurate bookie predicti
 
 |           | Random model | Bet every game   | Random Forest (training) | Random Forest (test) |
 | --------- | -------------| ---------------- | -------------------------| -------------------- |
-| Precision | 0.3856       | 0.3850           |  0.5631                  | 0.5775               |
+| Precision | 0.3856       | 0.3850           |  0.5931                  | 0.5775               |
 
 
 The expected value of the betting strategy determines whether the strategy can be profitable.
