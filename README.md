@@ -20,7 +20,7 @@ The relationship between the odds and precision score of the model define the pr
 The model has a precision of 0.5775 on the test set. Thus, the expected value is,
 $$\ odds > \frac{1}{0.5775} = 1.732 $$
 
-Two backtests are carried out. The starting capital is 500 and each bet stake is 10. The test data home odds are used and average odds for all draw/away predictions are assumed since the data are missing the double chance odds.
+Two backtests are conducted with an initial capital of 500, each using a bet stake of 10, and relying on home odds for the test data while assuming average odds for all draw/away predictions due to missing double chance odds.
 
 <img src="https://github.com/alexkarakozis/Premier-League-Betting-Model/assets/69156399/82e605ea-184b-490a-9c54-f130d8622f12" width=500/>
 
