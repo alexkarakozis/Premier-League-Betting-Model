@@ -4,9 +4,7 @@ This binary random forest classifier aims to identify inaccurate bookie predicti
 
 ### Performance Evaluation - Backtesting
 
- A completely random model is used by sampling from the uniform distribution and betting if the sample is greater than 0.5. The precision obtained is 0.3856. This is the base minimum performance that random decisions provide. Theoretically, the random forest classifier which makes informed decisions should result in higher precision score. This is the case and the model achieves precisions in the training set and the test set of 0.4913 and 0.5977, respectively. The difference in precision between the base random performance and the model's performance is the value added by the model using the available data. 
-
- 
+ A completely random model is used by sampling from the uniform distribution [0,1] and betting if the sample is greater than 0.5. The precision obtained is 0.3856. This is the base minimum performance that random decisions provide. The results are tabulated below.
 
 |           | Random model | Bet every game   | Random Forest (training) | Random Forest (test) |
 | --------- | -------------| ---------------- | -------------------------| -------------------- |
