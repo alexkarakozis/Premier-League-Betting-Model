@@ -15,9 +15,7 @@ The expected value of the betting strategy determines whether the strategy can b
 
 $$\ E[V] = precision * (odds-1) - (1-precision) > 0 => odds > \frac{1}{precision}$$
 
-The relationship between the odds and precision score of the model define the profitability of the model.
-
-The model has a precision of 0.5775 on the test set. Thus, the expected value is,
+The relationship between the odds and precision score of the model define the profitability of the model. The model has a precision of 0.5775 on the test set. Thus, to be profitable the odds must be
 $$\ odds > \frac{1}{0.5775} = 1.732 $$
 
 Two backtests are conducted with an initial capital of 500, each using a bet stake of 10, and relying on home odds for the test data while assuming average odds for all draw/away predictions due to missing double chance odds.
